@@ -14,9 +14,11 @@ enum Gender { male, female }
 
 class _InputPageState extends State<InputPage> {
   static const _kBottomContainerHeight = 80.0;
-  static const _kBottomContainerColor = Color(0xFFEB1555);
+  static const _kSliderInactiveColor = Color(0xFF8D8E89);
+  static const _kSliderOverlayColor = Color(0x29EB1555);
 
   Gender selectedGender;
+  int height = 180;
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +85,7 @@ class _InputPageState extends State<InputPage> {
                       textBaseline: TextBaseline.alphabetic,
                       children: <Widget>[
                         Text(
-                          '180',
+                          height.toString(),
                           style: kNumberTextStyle,
                         ),
                         Text(
@@ -92,6 +94,32 @@ class _InputPageState extends State<InputPage> {
                         )
                       ],
                     ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    SliderTheme(
+                      data: SliderTheme.of(context).copyWith(
+                          activeTrackColor: Colors.white,
+                          overlayColor: _kSliderOverlayColor,
+                          thumbShape: RoundSliderThumbShape(
+                            enabledThumbRadius: 15.0,
+                          ),
+                          overlayShape: RoundSliderOverlayShape(
+                            overlayRadius: 30.0,
+                          ),
+                          thumbColor: kMainAccentColor),
+                      child: Slider(
+                        value: height.toDouble(),
+                        min: 120,
+                        max: 230,
+                        inactiveColor: _kSliderInactiveColor,
+                        onChanged: (value) {
+                          setState(() {
+                            height = value.toInt();
+                          });
+                        },
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -114,7 +142,7 @@ class _InputPageState extends State<InputPage> {
               ),
             ),
             Container(
-              color: _kBottomContainerColor,
+              color: kMainAccentColor,
               margin: EdgeInsets.only(top: 10.0),
               width: double.infinity,
               height: _kBottomContainerHeight,
